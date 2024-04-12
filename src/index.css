@@ -1,11 +1,11 @@
-@import url('https://fonts.googleapis.com/css2?family=Caprasimo&family=Roboto+Slab:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
 * {
   box-sizing: border-box;
 }
 
 html {
-  font-family: 'Roboto Slab', sans-serif;
+  font-family: 'Poppins', sans-serif;
   line-height: 1.5;
 
   color: #ebe7ef;
@@ -48,7 +48,7 @@ h1 {
 }
 
 #game-container {
-  max-width: 45rem;
+  max-width: 80rem;
   margin: 3rem auto;
   padding: 2rem;
   border-radius: 6px;
@@ -70,7 +70,6 @@ h1 {
 #players li {
   display: flex;
   align-items: center;
-  width: 50%;
   border: 2px solid transparent;
 }
 
@@ -179,12 +178,12 @@ ol {
 }
 
 #game-board button {
-  width: 8rem;
-  height: 8rem;
+  width: 5.5rem;
+  height: 5.5rem;
   border: none;
   background: #aca788;
-  color: #3f3b00;
-  font-size: 5rem;
+  color: black;
+  font-size: 2.5rem;
   cursor: pointer;
   font-family: 'Caprasimo', cursive;
   padding: 1rem;

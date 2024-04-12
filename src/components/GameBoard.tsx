@@ -13,7 +13,7 @@ function GameBoard(props: GameBoardProps) {
                     {row.map((playerSymbol, columnIndex) => <li key={columnIndex}>
                         <button
                             onClick={() => props.onSelectSquare(rowIndex, columnIndex)}
-                            disabled={playerSymbol != '' && !!props.winner}>
+                            disabled={playerSymbol != '' || !!props.winner}>
                             {playerSymbol}
                         </button>
                     </li>)}
