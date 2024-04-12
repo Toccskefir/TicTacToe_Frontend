@@ -2,6 +2,7 @@ import './App.css';
 import {useState} from "react";
 import Square from "./classes/square";
 import GameTurn from "./classes/gameTurn";
+import Player from './components/Player';
 
 const initialGameBoard: string[][] = [
   ['', '', ''],
