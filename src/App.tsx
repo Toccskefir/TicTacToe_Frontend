@@ -3,6 +3,8 @@ import {useState} from "react";
 import Square from "./classes/square";
 import GameTurn from "./classes/gameTurn";
 import Player from './components/Player';
+import GameOver from './components/GameOver';
+import Players from "./classes/player";
 
 const initialGameBoard: string[][] = [
   ['', '', ''],
