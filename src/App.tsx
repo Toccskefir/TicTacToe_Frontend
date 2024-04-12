@@ -8,9 +8,11 @@ import Players from "./classes/player";
 import GameBoard from './components/GameBoard';
 
 const initialGameBoard: string[][] = [
-  ['', '', ''],
-  ['', '', ''],
-  ['', '', '']
+  ['', '', '','', ''],
+  ['', '', '','', ''],
+  ['', '', '','', ''],
+  ['', '', '','', ''],
+  ['', '', '','', '']
 ];
 
 function App() {
@@ -29,11 +31,13 @@ function App() {
     winner = activePlayer === 'X' ? players.o : players.x;
   }
 
-  const isDraw = gameTurns.length === 9 && !winner;
+  const isDraw = gameTurns.length === 25 && !winner;
 
   function isRowWinning() {
     for (let i = 0; i < gameBoard.length; i++) {
-      if (gameBoard[i][0] !== '' && gameBoard[i][0] === gameBoard[i][1] && gameBoard[i][0] === gameBoard[i][2]) {
+      if (gameBoard[i][0] !== '' && gameBoard[i][0] === gameBoard[i][1] &&
+          gameBoard[i][0] === gameBoard[i][2] && gameBoard[i][0] === gameBoard[i][3] &&
+          gameBoard[i][0] === gameBoard[i][4]) {
         return true;
       }
     }
@@ -42,7 +46,9 @@ function App() {
 
   function isColumnWinning() {
     for (let i = 0; i < gameBoard.length; i++) {
-      if (gameBoard[0][i] !== '' && gameBoard[0][i] === gameBoard[1][i] && gameBoard[0][i] === gameBoard[2][i]) {
+      if (gameBoard[0][i] !== '' && gameBoard[0][i] === gameBoard[1][i] &&
+          gameBoard[0][i] === gameBoard[2][i] && gameBoard[0][i] === gameBoard[3][i] &&
+          gameBoard[0][i] === gameBoard[4][i]) {
         return true;
       }
     }
@@ -50,10 +56,12 @@ function App() {
   }
 
   function isDiagonalWinning() {
-    if (gameBoard[0][0] !== '' && gameBoard[0][0] === gameBoard[1][1] && gameBoard[0][0] === gameBoard[2][2]) {
+    if (gameBoard[0][0] !== '' && gameBoard[0][0] === gameBoard[1][1] && gameBoard[0][0] === gameBoard[2][2] &&
+        gameBoard[0][0] === gameBoard[3][3] && gameBoard[0][0] === gameBoard[4][4]) {
       return true;
     }
-    if (gameBoard[2][0] !== '' && gameBoard[2][0] === gameBoard[1][1] && gameBoard[2][0] === gameBoard[0][2]) {
+    if (gameBoard[4][0] !== '' && gameBoard[4][0] === gameBoard[3][1] && gameBoard[4][0] === gameBoard[2][2] &&
+        gameBoard[4][0] === gameBoard[1][3] && gameBoard[4][0] === gameBoard[0][4]) {
       return true;
     }
     return false;
