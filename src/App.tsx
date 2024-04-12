@@ -88,9 +88,6 @@ function App() {
           {(winner || isDraw) && <GameOver winner={winner} onRestart={handleRestart}/>}
           <GameBoard onSelectSquare={handleSelectSquare} activePlayer={activePlayer} gameBoard={gameBoard} winner={winner}/>
         </div>
-        <ol id="log">
-          <Log gameTurns={gameTurns}/>
-        </ol>
       </main>
   );
 }
