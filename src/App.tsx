@@ -1,5 +1,7 @@
 import './App.css';
 import {useState} from "react";
+import Square from "./classes/square";
+import GameTurn from "./classes/gameTurn";
 
 const initialGameBoard: string[][] = [
   ['', '', ''],
