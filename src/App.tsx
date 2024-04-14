@@ -7,7 +7,6 @@ import GameOver from './components/GameOver';
 import Players from "./classes/player";
 import GameBoard from './components/GameBoard';
 import axios from "axios";
-import sessionContextProvider from "./contexts/SessionContextProvider";
 import {SessionContext} from "./contexts/SessionContext";
 
 const initialGameBoard: string[][] = [
@@ -22,6 +21,7 @@ function App() {
 
   const baseUrl = 'http://192.168.0.144:3000'
   const {changeSessionId} = useContext(SessionContext)
+
   const [gameTurns, setGameTurns] = useState<GameTurn[]>([]);
   const [players, setPlayers] = useState(new Players('Player1', 'Player2'));
   const [inMatch, setInMatch] = useState<boolean>(false)
@@ -97,9 +97,8 @@ function App() {
   }
 
   function findMatch() {
-    setInMatch(true);
     axios.post(baseUrl + '/lobby')
-        .then((res) => changeSessionId(res.data))
+        .then((res) => {if (res.data) {changeSessionId(res.data); setInMatch(true); console.log(res.data) }})
         .catch((e) => console.log(e))
   }
 
