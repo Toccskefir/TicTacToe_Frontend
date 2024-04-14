@@ -1,5 +1,5 @@
 import './App.css';
-import {useContext, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import Square from "./classes/square";
 import GameTurn from "./classes/gameTurn";
 import Player from './components/Player';
@@ -21,6 +21,7 @@ function App() {
 
   const baseUrl = 'http://192.168.0.144:3000'
   const {changeSessionId} = useContext(SessionContext)
+  const {sessionId} = useContext(SessionContext)
 
   const [gameTurns, setGameTurns] = useState<GameTurn[]>([]);
   const [players, setPlayers] = useState(new Players('Player1', 'Player2'));
@@ -102,6 +103,10 @@ function App() {
         .catch((e) => console.log(e))
   }
 
+  useEffect(() => {
+
+  }, []);
+
   return (
       <main>
         <div id="game-container">
@@ -117,6 +122,7 @@ function App() {
                 </ol>
                   {(winner || isDraw) && <GameOver winner={winner} onRestart={handleRestart}/>}
                 <GameBoard onSelectSquare={handleSelectSquare} activePlayer={activePlayer} gameBoard={gameBoard} winner={winner}/>
+                  <button onClick={() => axios.get(baseUrl + '/game/' + sessionId).then((res) => console.log(res.data)).catch((e) =>console.log(e.response.data))}>gamestate</button>
                 </>
             }
         </div>

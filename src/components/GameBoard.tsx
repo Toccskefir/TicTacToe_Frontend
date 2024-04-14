@@ -1,5 +1,5 @@
 import axios from "axios";
-import {useContext} from "react";
+import {useContext, useEffect, useState} from "react";
 import {SessionContext} from "../contexts/SessionContext";
 
 interface GameBoardProps {
@@ -12,6 +12,25 @@ interface GameBoardProps {
 function GameBoard(props: GameBoardProps) {
 
     const {sessionId} = useContext(SessionContext)
+
+    const [inMatch, setInMatch] = useState(false)
+
+    const baseUrl = 'http://192.168.0.144:3000'
+
+    function updateGameBoard() {
+        axios.get(baseUrl + '/game/' + sessionId).then((res) => {console.log(res.data); setInMatch(true); if(typeof res.data === 'object') {
+            props.gameBoard = res.data } else {setInMatch(false)}
+        }).catch((e) =>console.log(e))
+    }
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            updateGameBoard();
+
+            return () => clearInterval(interval)
+        }, 1000);
+
+    }, []);
 
     return (
         <ol id="game-board">
