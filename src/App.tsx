@@ -1,11 +1,14 @@
 import './App.css';
-import {useState} from "react";
+import {useContext, useState} from "react";
 import Square from "./classes/square";
 import GameTurn from "./classes/gameTurn";
 import Player from './components/Player';
 import GameOver from './components/GameOver';
 import Players from "./classes/player";
 import GameBoard from './components/GameBoard';
+import axios from "axios";
+import sessionContextProvider from "./contexts/SessionContextProvider";
+import {SessionContext} from "./contexts/SessionContext";
 
 const initialGameBoard: string[][] = [
   ['', '', '','', ''],
@@ -16,8 +19,12 @@ const initialGameBoard: string[][] = [
 ];
 
 function App() {
+
+  const baseUrl = 'http://192.168.0.144:3000'
+  const {changeSessionId} = useContext(SessionContext)
   const [gameTurns, setGameTurns] = useState<GameTurn[]>([]);
   const [players, setPlayers] = useState(new Players('Player1', 'Player2'));
+  const [inMatch, setInMatch] = useState<boolean>(false)
 
   let gameBoard = [...initialGameBoard].map(innerArray => [...innerArray]);
   let activePlayer = gameTurns.length === 0 ? 'X' : (gameTurns[0].player === 'X' ? 'O' : 'X');
@@ -89,15 +96,30 @@ function App() {
     });
   }
 
+  function findMatch() {
+    setInMatch(true);
+    axios.post(baseUrl + '/lobby')
+        .then((res) => changeSessionId(res.data))
+        .catch((e) => console.log(e))
+  }
+
   return (
       <main>
         <div id="game-container">
-          <ol id="players" className='highlight-player'>
-            <Player playerName='Player1' playerSymbol='X' isActive={activePlayer === 'X'} onNameChange={handleNameChange}/>
-            <Player playerName='Player2' playerSymbol='O' isActive={activePlayer === 'O'} onNameChange={handleNameChange}/>
-          </ol>
-          {(winner || isDraw) && <GameOver winner={winner} onRestart={handleRestart}/>}
-          <GameBoard onSelectSquare={handleSelectSquare} activePlayer={activePlayer} gameBoard={gameBoard} winner={winner}/>
+            {!inMatch ?
+                <button className="" onClick={findMatch}>Find Match</button>
+                :
+                <>
+                <ol id="players" className='highlight-player'>
+                  <Player playerName='Player1' playerSymbol='X' isActive={activePlayer === 'X'}
+                          onNameChange={handleNameChange}/>
+                  <Player playerName='Player2' playerSymbol='O' isActive={activePlayer === 'O'}
+                          onNameChange={handleNameChange}/>
+                </ol>
+                  {(winner || isDraw) && <GameOver winner={winner} onRestart={handleRestart}/>}
+                <GameBoard onSelectSquare={handleSelectSquare} activePlayer={activePlayer} gameBoard={gameBoard} winner={winner}/>
+                </>
+            }
         </div>
       </main>
   );
