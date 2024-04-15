@@ -6,6 +6,7 @@ interface GameBoardProps {
     onSelectSquare: (rowIndex: number, columnIndex: number) => void;
     activePlayer: string;
     gameBoard: string[][];
+    setGameBoard: any;
     winner?: string;
 }
 
@@ -15,11 +16,9 @@ function GameBoard(props: GameBoardProps) {
 
     const [inMatch, setInMatch] = useState(false)
 
-    const baseUrl = 'http://192.168.0.144:3000'
-
     function updateGameBoard() {
-        axios.get(baseUrl + '/game/' + sessionId).then((res) => {console.log(res.data); setInMatch(true); if(typeof res.data === 'object') {
-            props.gameBoard = res.data } else {setInMatch(false)}
+        axios.get('/game/' + sessionId).then((res) => {console.log(res.data); setInMatch(true); if(typeof res.data === 'object') {
+            props.setGameBoard(res.data) } else {setInMatch(false)}
         }).catch((e) =>console.log(e))
     }
 
@@ -38,7 +37,7 @@ function GameBoard(props: GameBoardProps) {
                 <ol>
                     {row.map((playerSymbol, columnIndex) => <li key={columnIndex}>
                         <button
-                            onClick={() => {props.onSelectSquare(rowIndex, columnIndex); axios.post('http://192.168.0.144:3000/game/' + sessionId + '/play',{ x: rowIndex, y: columnIndex}).then((res)=>console.log(res.data)).catch(() =>console.log())}}
+                            onClick={() => {props.onSelectSquare(rowIndex, columnIndex); axios.post('/game/' + sessionId + '/play',{ x: rowIndex, y: columnIndex}).then((res)=>console.log(res.data)).catch(() =>console.log())}}
                             disabled={playerSymbol != '' || !!props.winner}>
                             {playerSymbol}
                         </button>

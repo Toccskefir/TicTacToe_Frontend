@@ -19,7 +19,7 @@ const initialGameBoard: string[][] = [
 
 function App() {
 
-  const baseUrl = 'http://192.168.0.144:3000'
+  const baseUrl = 'http://192.168.11.70:3000'
   const {changeSessionId} = useContext(SessionContext)
   const {sessionId} = useContext(SessionContext)
 
@@ -27,7 +27,7 @@ function App() {
   const [players, setPlayers] = useState(new Players('Player1', 'Player2'));
   const [inMatch, setInMatch] = useState<boolean>(false)
 
-  let gameBoard = [...initialGameBoard].map(innerArray => [...innerArray]);
+  const [gameBoard, setGameBoard] = useState([...initialGameBoard].map(innerArray => [...innerArray]));
   let activePlayer = gameTurns.length === 0 ? 'X' : (gameTurns[0].player === 'X' ? 'O' : 'X');
   let winner = undefined;
 
@@ -98,7 +98,7 @@ function App() {
   }
 
   function findMatch() {
-    axios.post(baseUrl + '/lobby')
+    axios.post('/lobby')
         .then((res) => {if (res.data) {changeSessionId(res.data); setInMatch(true); console.log(res.data) }})
         .catch((e) => console.log(e))
   }
@@ -121,7 +121,7 @@ function App() {
                           onNameChange={handleNameChange}/>
                 </ol>
                   {(winner || isDraw) && <GameOver winner={winner} onRestart={handleRestart}/>}
-                <GameBoard onSelectSquare={handleSelectSquare} activePlayer={activePlayer} gameBoard={gameBoard} winner={winner}/>
+                <GameBoard setGameBoard={setGameBoard} onSelectSquare={handleSelectSquare} activePlayer={activePlayer} gameBoard={gameBoard} winner={winner}/>
                   <button onClick={() => axios.get(baseUrl + '/game/' + sessionId).then((res) => console.log(res.data)).catch((e) =>console.log(e.response.data))}>gamestate</button>
                 </>
             }
